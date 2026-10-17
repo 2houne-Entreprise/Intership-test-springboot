@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - TaskFlow</title>
+</head>
+<body>
+  <h1>Dashboard</h1>
+  <p>Logged in as <strong th:text="${username}"></strong></p>
+
+  <form th:action="@{/logout}" method="post">
+    <button type="submit">Log out</button>
+  </form>
+</body>
+</html>
