@@ -1,10 +1,14 @@
 package TaskFlow.entity;
 
+import java.util.ArrayList;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import java.util.List;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,6 +23,9 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    private List<Project> projects = new ArrayList<>();
 
     public User() {
     }
@@ -42,5 +49,12 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+    public List<Project> getProjects() {
+    return projects;
+}
+
+public void setProjects(List<Project> projects) {
+    this.projects = projects;
+}
 
 }
