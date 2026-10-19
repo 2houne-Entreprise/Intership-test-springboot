@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::section})}">
+<head><title>Project detail - TaskFlow</title></head>
+<body>
+<section>
+  <h1 th:text="${project.name}"></h1>
+  <p th:text="${project.description}"></p>
+  <p>
+    <a th:href="@{/projects/{id}/tasks/new(id=${project.id})}">New task</a> |
+    <a th:href="@{/projects}">Back to projects</a>
+  </p>
+
+  <p th:if="${#lists.isEmpty(tasks)}">No tasks yet.</p>
+
+  <table th:unless="${#lists.isEmpty(tasks)}">
+    <tr><th>Title</th><th>Status</th><th>Deadline</th><th>Actions</th></tr>
+    <tr th:each="task : ${tasks}">
+      <td th:text="${task.title}"></td>
+      <td>
+        <form th:action="@{/projects/{pid}/tasks/{id}/status(pid=${project.id},id=${task.id})}"
+              method="post" class="inline">
+          <select name="status">
+            <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"
+                    th:selected="${s == task.status}"></option>
+          </select>
+          <button type="submit">Update</button>
+        </form>
+      </td>
+      <td th:text="${task.deadline}"></td>
+      <td><a th:href="@{/projects/{pid}/tasks/{id}/edit(pid=${project.id},id=${task.id})}">Edit</a></td>
+    </tr>
+  </table>
+</section>
+</body>
+</html>

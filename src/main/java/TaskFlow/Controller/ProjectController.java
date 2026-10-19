@@ -2,7 +2,9 @@ package TaskFlow.Controller;
 
 import TaskFlow.dto.ProjectForm;
 import TaskFlow.entity.Project;
+import TaskFlow.entity.TaskStatus;
 import TaskFlow.services.ProjectService;
+import TaskFlow.services.TaskService;
 import jakarta.validation.Valid;
 import java.security.Principal;
 import org.springframework.stereotype.Controller;
@@ -20,9 +22,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ProjectController {
 
   private final ProjectService projectService;
+  private final TaskService taskService;
 
-  public ProjectController(ProjectService projectService) {
+  public ProjectController(ProjectService projectService, TaskService taskService) {
     this.projectService = projectService;
+    this.taskService = taskService;
   }
 
   @GetMapping
@@ -52,6 +56,14 @@ public class ProjectController {
     projectService.create(form, principal.getName());
     redirectAttributes.addFlashAttribute("success", "Project created.");
     return "redirect:/projects";
+  }
+
+  @GetMapping("/{id}")
+  public String show(@PathVariable Long id, Principal principal, Model model) {
+    model.addAttribute("project", projectService.findOwned(id, principal.getName()));
+    model.addAttribute("tasks", taskService.findAll(id, principal.getName()));
+    model.addAttribute("statuses", TaskStatus.values());
+    return "projects/show";
   }
 
   @GetMapping("/{id}/edit")

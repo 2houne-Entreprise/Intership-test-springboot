@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -27,13 +28,6 @@ public class TaskController {
   public TaskController(TaskService taskService, ProjectService projectService) {
     this.taskService = taskService;
     this.projectService = projectService;
-  }
-
-  @GetMapping
-  public String index(@PathVariable Long projectId, Principal principal, Model model) {
-    model.addAttribute("project", projectService.findOwned(projectId, principal.getName()));
-    model.addAttribute("tasks", taskService.findAll(projectId, principal.getName()));
-    return "tasks/index";
   }
 
   @GetMapping("/new")
@@ -54,14 +48,12 @@ public class TaskController {
       Model model,
       RedirectAttributes redirectAttributes) {
     if (result.hasErrors()) {
-      model.addAttribute("statuses", TaskStatus.values());
-      model.addAttribute("projectId", projectId);
-      model.addAttribute("formAction", "/projects/" + projectId + "/tasks");
+      prepareFormAttributes(model, projectId, "/projects/" + projectId + "/tasks");
       return "tasks/form";
     }
     taskService.create(projectId, form, principal.getName());
     redirectAttributes.addFlashAttribute("success", "Task created.");
-    return "redirect:/projects/" + projectId + "/tasks";
+    return "redirect:/projects/" + projectId;
   }
 
   @GetMapping("/{id}/edit")
@@ -86,18 +78,32 @@ public class TaskController {
       Model model,
       RedirectAttributes redirectAttributes) {
     if (result.hasErrors()) {
-      model.addAttribute("statuses", TaskStatus.values());
-      model.addAttribute("projectId", projectId);
-      model.addAttribute("formAction", "/projects/" + projectId + "/tasks/" + id);
+      prepareFormAttributes(model, projectId, "/projects/" + projectId + "/tasks/" + id);
       return "tasks/form";
     }
     taskService.update(projectId, id, form, principal.getName());
     redirectAttributes.addFlashAttribute("success", "Task updated.");
-    return "redirect:/projects/" + projectId + "/tasks";
+    return "redirect:/projects/" + projectId;
+  }
+
+  @PostMapping("/{id}/status")
+  public String updateStatus(
+      @PathVariable Long projectId,
+      @PathVariable Long id,
+      @RequestParam TaskStatus status,
+      Principal principal,
+      RedirectAttributes redirectAttributes) {
+    taskService.updateStatus(projectId, id, status, principal.getName());
+    redirectAttributes.addFlashAttribute("success", "Status updated.");
+    return "redirect:/projects/" + projectId;
   }
 
   private void prepareForm(Model model, TaskForm form, Long projectId, String action) {
     model.addAttribute("taskForm", form);
+    prepareFormAttributes(model, projectId, action);
+  }
+
+  private void prepareFormAttributes(Model model, Long projectId, String action) {
     model.addAttribute("statuses", TaskStatus.values());
     model.addAttribute("projectId", projectId);
     model.addAttribute("formAction", action);

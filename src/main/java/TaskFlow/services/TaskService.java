@@ -3,6 +3,7 @@ package TaskFlow.services;
 import TaskFlow.dto.TaskForm;
 import TaskFlow.entity.Project;
 import TaskFlow.entity.Task;
+import TaskFlow.entity.TaskStatus;
 import TaskFlow.repository.TaskRepository;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -48,6 +49,13 @@ public class TaskService {
   public Task update(Long projectId, Long id, TaskForm form, String username) {
     Task task = findOwned(projectId, id, username);
     apply(task, form);
+    return task;
+  }
+
+  @Transactional
+  public Task updateStatus(Long projectId, Long id, TaskStatus status, String username) {
+    Task task = findOwned(projectId, id, username);
+    task.setStatus(status);
     return task;
   }
 

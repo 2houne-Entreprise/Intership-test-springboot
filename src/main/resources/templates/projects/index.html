@@ -1,30 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Projects - TaskFlow</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::section})}">
+<head><title>Projects - TaskFlow</title></head>
 <body>
+<section>
   <h1>My projects</h1>
-  <p th:if="${success}" th:text="${success}" style="color:green"></p>
-
-  <p><a th:href="@{/projects/new}">New project</a> | <a th:href="@{/dashboard}">Dashboard</a></p>
+  <p><a th:href="@{/projects/new}">New project</a></p>
 
   <p th:if="${#lists.isEmpty(projects)}">No projects yet.</p>
 
-  <table th:unless="${#lists.isEmpty(projects)}" border="1" cellpadding="6">
+  <table th:unless="${#lists.isEmpty(projects)}">
     <tr><th>Name</th><th>Description</th><th>Actions</th></tr>
     <tr th:each="project : ${projects}">
-      <td th:text="${project.name}"></td>
+      <td><a th:href="@{/projects/{id}(id=${project.id})}" th:text="${project.name}"></a></td>
       <td th:text="${project.description}"></td>
       <td>
         <a th:href="@{/projects/{id}/edit(id=${project.id})}">Edit</a>
-<a th:href="@{/projects/{id}/tasks(id=${project.id})}">Tasks</a>
-        <form th:action="@{/projects/{id}/delete(id=${project.id})}" method="post" style="display:inline">
+        <form th:action="@{/projects/{id}/delete(id=${project.id})}" method="post" class="inline">
           <button type="submit">Delete</button>
         </form>
       </td>
     </tr>
   </table>
+</section>
 </body>
 </html>
