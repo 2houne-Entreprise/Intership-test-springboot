@@ -58,16 +58,16 @@ public class ProjectController {
     return "redirect:/projects";
   }
 
-  @GetMapping("/{id}")
-  public String show(@PathVariable Long id, Principal principal, Model model) {
+  @GetMapping("/{projectId}")
+  public String show(@PathVariable("projectId") Long id, Principal principal, Model model) {
     model.addAttribute("project", projectService.findOwned(id, principal.getName()));
     model.addAttribute("tasks", taskService.findAll(id, principal.getName()));
     model.addAttribute("statuses", TaskStatus.values());
     return "projects/show";
   }
 
-  @GetMapping("/{id}/edit")
-  public String edit(@PathVariable Long id, Principal principal, Model model) {
+  @GetMapping("/{projectId}/edit")
+  public String edit(@PathVariable("projectId") Long id, Principal principal, Model model) {
     Project project = projectService.findOwned(id, principal.getName());
     ProjectForm form = new ProjectForm();
     form.setName(project.getName());
@@ -77,9 +77,9 @@ public class ProjectController {
     return "projects/form";
   }
 
-  @PostMapping("/{id}")
+  @PostMapping("/{projectId}")
   public String update(
-      @PathVariable Long id,
+      @PathVariable("projectId") Long id,
       @Valid @ModelAttribute("projectForm") ProjectForm form,
       BindingResult result,
       Principal principal,
@@ -94,9 +94,9 @@ public class ProjectController {
     return "redirect:/projects";
   }
 
-  @PostMapping("/{id}/delete")
+  @PostMapping("/{projectId}/delete")
   public String destroy(
-      @PathVariable Long id, Principal principal, RedirectAttributes redirectAttributes) {
+      @PathVariable("projectId") Long id, Principal principal, RedirectAttributes redirectAttributes) {
     projectService.delete(id, principal.getName());
     redirectAttributes.addFlashAttribute("success", "Project deleted.");
     return "redirect:/projects";

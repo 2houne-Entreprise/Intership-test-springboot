@@ -23,6 +23,11 @@ public class ProjectService {
   }
 
   @Transactional(readOnly = true)
+  public boolean isOwner(Long projectId, String username) {
+    return projectRepository.existsByIdAndUserUsername(projectId, username);
+  }
+
+  @Transactional(readOnly = true)
   public List<Project> findAllFor(String username) {
     return projectRepository.findByUserId(currentUser(username).getId());
   }
@@ -48,7 +53,7 @@ public class ProjectService {
     Project project = findOwned(id, username);
     project.setName(form.getName().trim());
     project.setDescription(form.getDescription());
-    return projectRepository.save(project);
+    return project;
   }
 
   @Transactional
