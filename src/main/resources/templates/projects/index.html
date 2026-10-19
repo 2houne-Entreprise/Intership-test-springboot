@@ -10,10 +10,11 @@
   <p th:if="${#lists.isEmpty(projects)}">No projects yet.</p>
 
   <table th:unless="${#lists.isEmpty(projects)}">
-    <tr><th>Name</th><th>Description</th><th>Actions</th></tr>
+    <tr><th>Name</th><th>Description</th><th>Tasks</th><th>Actions</th></tr>
     <tr th:each="project : ${projects}">
       <td><a th:href="@{/projects/{id}(id=${project.id})}" th:text="${project.name}"></a></td>
       <td th:text="${project.description}"></td>
+      <td th:text="${#lists.size(project.tasks)}"></td>
       <td>
         <a th:href="@{/projects/{id}/edit(id=${project.id})}">Edit</a>
         <form th:action="@{/projects/{id}/delete(id=${project.id})}" method="post" class="inline">

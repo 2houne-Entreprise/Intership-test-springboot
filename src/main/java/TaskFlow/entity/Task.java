@@ -64,4 +64,15 @@ public class Task {
   public void setDeadline(LocalDate deadline) { this.deadline = deadline; }
   public Instant getCreatedAt() { return createdAt; }
   public Instant getUpdatedAt() { return updatedAt; }
+
+  public String getStatusLabel() {
+    if (status == null) {
+      return "";
+    }
+    return switch (status) {
+      case PENDING -> "En attente";
+      case IN_PROGRESS -> "En cours";
+      case DONE -> "Terminée";
+    };
+  }
 }

@@ -10,6 +10,7 @@
   <nav th:if="${currentUser}">
     <a th:href="@{/dashboard}">Dashboard</a>
     <a th:href="@{/projects}">Projects</a>
+    <a th:href="@{/tasks/overdue}">Overdue</a>
     <span class="spacer"></span>
     <span th:text="${currentUser}"></span>
     <form th:action="@{/logout}" method="post">

@@ -18,6 +18,7 @@
     <tr th:each="task : ${tasks}">
       <td th:text="${task.title}"></td>
       <td>
+        <strong th:text="${task.statusLabel}"></strong>
         <form th:action="@{/projects/{pid}/tasks/{id}/status(pid=${project.id},id=${task.id})}"
               method="post" class="inline">
           <select name="status">

@@ -5,6 +5,7 @@ import TaskFlow.entity.Project;
 import TaskFlow.entity.Task;
 import TaskFlow.entity.TaskStatus;
 import TaskFlow.repository.TaskRepository;
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,12 @@ public class TaskService {
   public List<Task> findAll(Long projectId, String username) {
     projectService.findOwned(projectId, username);
     return taskRepository.findByProjectId(projectId);
+  }
+
+  @Transactional(readOnly = true)
+  public List<Task> findOverdue(String username) {
+    return taskRepository.findByProjectUserUsernameAndDeadlineBeforeAndStatusNot(
+        username, LocalDate.now(), TaskStatus.DONE);
   }
 
   @Transactional(readOnly = true)
