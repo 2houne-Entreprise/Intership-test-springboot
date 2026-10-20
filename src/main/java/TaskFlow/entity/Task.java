@@ -35,6 +35,9 @@ public class Task {
 
   private LocalDate deadline;
 
+  @Column(length = 255)
+  private String attachmentPath;
+
   @Column(nullable = false, updatable = false)
   private Instant createdAt;
 
@@ -74,5 +77,13 @@ public class Task {
       case IN_PROGRESS -> "En cours";
       case DONE -> "Terminée";
     };
+  }
+
+  public String getAttachmentPath() {
+    return attachmentPath;
+  }
+
+  public void setAttachmentPath(String attachmentPath) {
+    this.attachmentPath = attachmentPath;
   }
 }

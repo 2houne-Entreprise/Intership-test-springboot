@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.web.multipart.MultipartFile;
 
 public class TaskForm {
 
@@ -20,10 +21,14 @@ public class TaskForm {
   @DateTimeFormat(iso = ISO.DATE)
   private LocalDate deadline;
 
+  private MultipartFile attachment;
+
   public String getTitle() { return title; }
   public void setTitle(String title) { this.title = title; }
   public TaskStatus getStatus() { return status; }
   public void setStatus(TaskStatus status) { this.status = status; }
   public LocalDate getDeadline() { return deadline; }
   public void setDeadline(LocalDate deadline) { this.deadline = deadline; }
+  public MultipartFile getAttachment() { return attachment; }
+  public void setAttachment(MultipartFile attachment) { this.attachment = attachment; }
 }

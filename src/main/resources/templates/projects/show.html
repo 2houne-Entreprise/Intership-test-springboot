@@ -14,7 +14,7 @@
   <p th:if="${#lists.isEmpty(tasks)}">No tasks yet.</p>
 
   <table th:unless="${#lists.isEmpty(tasks)}">
-    <tr><th>Title</th><th>Status</th><th>Deadline</th><th>Actions</th></tr>
+    <tr><th>Title</th><th>Status</th><th>Deadline</th><th>Attachment</th><th>Actions</th></tr>
     <tr th:each="task : ${tasks}">
       <td th:text="${task.title}"></td>
       <td>
@@ -29,6 +29,11 @@
         </form>
       </td>
       <td th:text="${task.deadline}"></td>
+      <td>
+        <a th:if="${task.attachmentPath}"
+           th:href="@{/attachments/{file}(file=${task.attachmentPath})}" download>Download</a>
+        <span th:unless="${task.attachmentPath}">-</span>
+      </td>
       <td><a th:href="@{/projects/{pid}/tasks/{id}/edit(pid=${project.id},id=${task.id})}">Edit</a></td>
     </tr>
   </table>

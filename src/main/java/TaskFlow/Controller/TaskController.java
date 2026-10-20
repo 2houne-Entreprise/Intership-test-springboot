@@ -47,13 +47,18 @@ public class TaskController {
       Principal principal,
       Model model,
       RedirectAttributes redirectAttributes) {
-    if (result.hasErrors()) {
-      prepareFormAttributes(model, projectId, "/projects/" + projectId + "/tasks");
-      return "tasks/form";
+    String action = "/projects/" + projectId + "/tasks";
+    if (!result.hasErrors()) {
+      try {
+        taskService.create(projectId, form, principal.getName());
+        redirectAttributes.addFlashAttribute("success", "Task created.");
+        return "redirect:/projects/" + projectId;
+      } catch (IllegalArgumentException e) {
+        result.rejectValue("attachment", "invalid", e.getMessage());
+      }
     }
-    taskService.create(projectId, form, principal.getName());
-    redirectAttributes.addFlashAttribute("success", "Task created.");
-    return "redirect:/projects/" + projectId;
+    prepareFormAttributes(model, projectId, action);
+    return "tasks/form";
   }
 
   @GetMapping("/{id}/edit")
@@ -77,13 +82,18 @@ public class TaskController {
       Principal principal,
       Model model,
       RedirectAttributes redirectAttributes) {
-    if (result.hasErrors()) {
-      prepareFormAttributes(model, projectId, "/projects/" + projectId + "/tasks/" + id);
-      return "tasks/form";
+    String action = "/projects/" + projectId + "/tasks/" + id;
+    if (!result.hasErrors()) {
+      try {
+        taskService.update(projectId, id, form, principal.getName());
+        redirectAttributes.addFlashAttribute("success", "Task updated.");
+        return "redirect:/projects/" + projectId;
+      } catch (IllegalArgumentException e) {
+        result.rejectValue("attachment", "invalid", e.getMessage());
+      }
     }
-    taskService.update(projectId, id, form, principal.getName());
-    redirectAttributes.addFlashAttribute("success", "Task updated.");
-    return "redirect:/projects/" + projectId;
+    prepareFormAttributes(model, projectId, action);
+    return "tasks/form";
   }
 
   @PostMapping("/{id}/status")
