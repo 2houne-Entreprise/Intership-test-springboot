@@ -35,3 +35,5 @@ build/
 project_tree.md
 
 uploads/
+data/
+run.log
