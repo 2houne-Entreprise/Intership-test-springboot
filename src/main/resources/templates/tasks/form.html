@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::section})}">
+<head><title>Task - TaskFlow</title></head>
+<body>
+<section>
+  <h1>Task</h1>
+  <form th:action="@{${formAction}}" th:object="${taskForm}" method="post"
+        enctype="multipart/form-data">
+    <div>
+      <label for="title">Title</label>
+      <input type="text" id="title" th:field="*{title}">
+      <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="field-error"></span>
+    </div>
+    <div>
+      <label for="status">Status</label>
+      <select id="status" th:field="*{status}">
+        <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
+      </select>
+      <span th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="field-error"></span>
+    </div>
+    <div>
+      <label for="deadline">Deadline</label>
+      <input type="date" id="deadline" th:field="*{deadline}">
+      <span th:if="${#fields.hasErrors('deadline')}" th:errors="*{deadline}" class="field-error"></span>
+    </div>
+    <div>
+      <label for="attachment">Attachment (pdf, images, office files, zip, max 5 MB)</label>
+      <input type="file" id="attachment" name="attachment">
+      <span th:if="${#fields.hasErrors('attachment')}" th:errors="*{attachment}" class="field-error"></span>
+    </div>
+    <button type="submit">Save</button>
+    <a th:href="@{/projects/{id}(id=${projectId})}">Cancel</a>
+  </form>
+</section>
+</body>
+</html>

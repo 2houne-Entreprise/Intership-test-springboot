@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::section})}">
+<head><title>Dashboard - TaskFlow</title></head>
+<body>
+<section>
+  <h1>Dashboard</h1>
+  <p>Logged in as <strong th:text="${username}"></strong></p>
+  <p><a th:href="@{/projects}">My projects</a></p>
+</section>
+</body>
+</html>

@@ -1,14 +1,9 @@
 HELP.md
 target/
-
-### TaskFlow ###
-data/
-uploads/
-application-local.properties
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-
+/data/
 ### STS ###
 .apt_generated
 .classpath
@@ -23,6 +18,7 @@ application-local.properties
 *.iws
 *.iml
 *.ipr
+/data/
 
 ### NetBeans ###
 /nbproject/private/
@@ -36,3 +32,8 @@ build/
 
 ### VS Code ###
 .vscode/
+project_tree.md
+
+uploads/
+data/
+run.log

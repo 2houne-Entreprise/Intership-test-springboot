@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::section})}">
+<head><title>Login - TaskFlow</title></head>
+<body>
+<section>
+  <h1>Login</h1>
+  <p th:if="${param.error}" class="alert error">Invalid username or password.</p>
+  <p th:if="${param.logout}" class="alert success">You have been logged out.</p>
+
+  <form th:action="@{/login}" method="post">
+    <div>
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required>
+    </div>
+    <div>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <button type="submit">Log in</button>
+  </form>
+  <p>No account? <a th:href="@{/register}">Register</a></p>
+</section>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::section})}">
+<head><title>Overdue tasks - TaskFlow</title></head>
+<body>
+<section>
+  <h1>Overdue tasks</h1>
+  <p th:if="${#lists.isEmpty(tasks)}">No overdue tasks.</p>
+  <table th:unless="${#lists.isEmpty(tasks)}">
+    <tr><th>Title</th><th>Project</th><th>Status</th><th>Deadline</th></tr>
+    <tr th:each="task : ${tasks}">
+      <td th:text="${task.title}"></td>
+      <td><a th:href="@{/projects/{id}(id=${task.project.id})}" th:text="${task.project.name}"></a></td>
+      <td th:text="${task.statusLabel}"></td>
+      <td th:text="${task.deadline}"></td>
+    </tr>
+  </table>
+</section>
+</body>
+</html>

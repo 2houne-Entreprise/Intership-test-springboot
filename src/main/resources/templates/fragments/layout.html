@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, content)">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:replace="${title}">TaskFlow</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+  <nav th:if="${currentUser}">
+    <a th:href="@{/dashboard}">Dashboard</a>
+    <a th:href="@{/projects}">Projects</a>
+    <a th:href="@{/tasks/overdue}">Overdue</a>
+    <span class="spacer"></span>
+    <span th:text="${currentUser}"></span>
+    <form th:action="@{/logout}" method="post">
+      <button type="submit">Log out</button>
+    </form>
+  </nav>
+  <main>
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+    <section th:replace="${content}"></section>
+  </main>
+</body>
+</html>

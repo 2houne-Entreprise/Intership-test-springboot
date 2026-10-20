@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::section})}">
+<head><title>Forbidden - TaskFlow</title></head>
+<body>
+<section>
+  <h1>403 - Forbidden</h1>
+  <p>You do not have access to this project.</p>
+  <p><a th:href="@{/projects}">Back to my projects</a></p>
+</section>
+</body>
+</html>
